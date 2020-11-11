@@ -29,7 +29,7 @@ const AlbumList = () => {
                 </Card.Body>
                 <Card.Footer>
                     <Link to={`/image/${td.id}`}>
-                        <Button variant="primary">check the album</Button>
+                        <Button className='center' variant="primary">check the album</Button>
                     </Link>                            
                 </Card.Footer>
             </Card>

@@ -16,11 +16,6 @@ const LoginForm = () => {
         dispatch(getUser(username, password))
     }
 
-    // if (user !== undefined) {
-    //     <Redirect to='/album'></Redirect>
-    // }
-
-
     return (
         <Card className='login-card'>
             <Form onSubmit={onSubmit()}>

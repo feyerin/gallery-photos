@@ -11,7 +11,7 @@ export const getUser = (username, password) => (dispatch, getState) => {
     } else {
         endpoint = 'https://jsonplaceholder.typicode.com/users?username=' + username
     }
-    return axios.get( endpoint)
+    return axios.get( endpoint )
         .then((res) => {
             dispatch({
                 type: "GET_DATA",
@@ -23,7 +23,8 @@ export const getUser = (username, password) => (dispatch, getState) => {
                 type: "ERROR_DATA",
                 payload: console.log(err)
             })
-        }).finally(() => {
+        })
+        .finally(() => {
             dispatch({
                 type: "IS_LOADING",
                 payload: false
