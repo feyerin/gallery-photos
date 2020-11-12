@@ -3,7 +3,7 @@ import ImageList from "../components/imageList";
 
 const ImagesPage = () => {
     return(
-        <div className='center'>
+        <div>
             <ImageList/>
         </div>
     )

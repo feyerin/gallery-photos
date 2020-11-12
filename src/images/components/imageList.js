@@ -8,6 +8,7 @@ import {
 const ImageList = () => {
     const [image, setImage] = useState([]);
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [newData, setNewData]  = useState({title: '', url: ''});
 
     let slug = useParams();
@@ -15,7 +16,7 @@ const ImageList = () => {
     useEffect(() => {
         axios.get('https://jsonplaceholder.typicode.com/photos?albumId='+ slug.id)
             .then(function (response) {
-                setImage(response.data)
+                setImage(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -47,8 +48,9 @@ const ImageList = () => {
     const postImage = () =>{
         axios.post('https://jsonplaceholder.typicode.com/photos', newData)
             .then(function (response) {
-                setImage(prevState => [...prevState, newData]);
-                setShow(false);            
+                setImage(prevState => [...prevState, response.data]);
+                setShow(false);
+                console.log(response.data)    
             })
             .catch(function (error) {
                 console.log(error);
@@ -57,61 +59,78 @@ const ImageList = () => {
     }
     return (
         <div>
-            <Row style={{margin:6}}>
-                {ImageRenderList()}
-            </Row>
-            <Button 
-                onClick={handleShow}
-                variant="primary"
-                size='lg' 
-                style={{display:'flex', paddingLeft:'auto', paddingRight:'auto', alignItems:'center', margin: 'auto', marginTop:20}}>
-                <b>+</b>
-            </Button>
+            {
+                loading &&
+                <div className="vertical-center">
+                    <div class="sk-chase">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    </div>
+                </div>
+            }
+            { !loading &&
+                <div>
+                    <Row style={{margin:6}}>
+                        {ImageRenderList()}
+                    </Row>
+                    <Button 
+                        onClick={handleShow}
+                        variant="primary"
+                        size='lg' 
+                        style={{display:'flex', paddingLeft:'auto', paddingRight:'auto', alignItems:'center', margin: 'auto', marginTop:20}}>
+                        <b>+</b>
+                    </Button>
 
-            <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-            >
-                <Modal.Header closeButton>
-                <Modal.Title>Modal title</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group as={Row}>
-                            <Form.Label column sm="2">
-                                Title
-                            </Form.Label>
-                            <Col sm="10">
-                            <Form.Control 
-                                type="text"
-                                onChange={handleChange}
-                                name="title" 
-                            />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row}>
-                            <Form.Label column sm="2">
-                                img source
-                            </Form.Label>
-                            <Col sm="10">
-                            <Form.Control 
-                                type="text"
-                                onChange={handleChange}
-                                name="url"                             
-                            />
-                            </Col>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                <Button onClick={postImage} variant="primary">Understood</Button>
-                </Modal.Footer>
-            </Modal>
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                        >
+                        <Modal.Header closeButton>
+                        <Modal.Title>Modal title</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group as={Row}>
+                                    <Form.Label column sm="2">
+                                        Title
+                                    </Form.Label>
+                                    <Col sm="10">
+                                    <Form.Control 
+                                        type="text"
+                                        onChange={handleChange}
+                                        name="title" 
+                                        />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row}>
+                                    <Form.Label column sm="2">
+                                        img source
+                                    </Form.Label>
+                                    <Col sm="10">
+                                    <Form.Control 
+                                        type="text"
+                                        onChange={handleChange}
+                                        name="url"                             
+                                        />
+                                    </Col>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button onClick={postImage} variant="primary">Understood</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+            }
         </div>
     )
 }

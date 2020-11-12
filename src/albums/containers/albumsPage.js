@@ -3,7 +3,9 @@ import AlbumList from "../components/albumList";
 
 const AlbumPage = () => {
     return(
-        <AlbumList/>
+        <div>
+            <AlbumList/>
+        </div>
     )
 }
 

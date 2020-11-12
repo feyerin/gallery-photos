@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const AlbumList = () => {
     const [album, setAlbum] = useState([]);
+    const [loading, setLoading] = useState(true);
     const userId = useSelector(state => state.login.user[0].id)
 
     useEffect(() => {
         axios.get('https://jsonplaceholder.typicode.com/albums?userId=' + userId)
             .then(function (response) {
-                setAlbum(response.data)
+                setAlbum(response.data);
+                setLoading(false)
             })
             .catch(function (error) {
                 console.log(error);
@@ -37,9 +39,26 @@ const AlbumList = () => {
     }
 
     return (
-        <Row className='center'>
-           {AlbumRenderList()}
-        </Row>
+        <div className='center'>
+            <Row style={{margin: 'auto', marginLeft: 'auto', marginRight: 'auto'}}>
+                {
+                    loading &&
+                    <div className="vertical-center">
+                        <div className="sk-chase">
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        </div>
+                    </div>
+                }
+                { !loading &&
+                    AlbumRenderList()
+                }
+            </Row>
+        </div>
     )
 }
 

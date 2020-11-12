@@ -28,9 +28,9 @@ const LoginForm = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password"  onChange={(event) => {setPassword(event.target.value)}}/>
                 </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
+                <Button variant="primary" type="submit" style={{textAlign: 'right'}}>
+                    Submit
+                </Button>
             </Form>
         </Card>
     )
